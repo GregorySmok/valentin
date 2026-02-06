@@ -42,7 +42,7 @@ async def main() -> None:
     shared.bot = Bot(token=token)
     shared.dp = Dispatcher(storage=MemoryStorage())
     shared.dp.message.middleware(BanMiddleware())
-    
+
     try:
         await setup_routers(shared.dp, routers)
         print("Polling starting...")
@@ -60,17 +60,17 @@ async def cleanup_tasks(loop: asyncio.AbstractEventLoop) -> None:
     tasks = asyncio.all_tasks(loop)
     if not tasks:
         return
-        
+
     print(f"Cancelling {len(tasks)} outstanding tasks...")
-    
+
     # Исключаем текущую задачу из списка отменяемых задач
     current_task = asyncio.current_task(loop)
     tasks_to_cancel = [t for t in tasks if t is not current_task and not t.done()]
-    
+
     # Отменяем задачи без рекурсивных вызовов
     for task in tasks_to_cancel:
         task.cancel()
-    
+
     if tasks_to_cancel:
         try:
             # Устанавливаем таймаут для ожидания отмены задач
@@ -78,14 +78,14 @@ async def cleanup_tasks(loop: asyncio.AbstractEventLoop) -> None:
             print("All tasks have been cancelled")
         except Exception as e:
             print(f"Error while waiting for tasks to cancel: {e}")
-    
+
     # Не закрываем цикл событий здесь, это будет сделано в основном блоке
 
 
 if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    
+
     try:
         loop.run_until_complete(main())
     except KeyboardInterrupt:
@@ -96,12 +96,12 @@ if __name__ == "__main__":
         try:
             # Отменяем задачи
             loop.run_until_complete(cleanup_tasks(loop))
-            
+
             # Останавливаем цикл событий
             loop.run_until_complete(loop.shutdown_asyncgens())
             if hasattr(loop, "shutdown_default_executor"):
                 loop.run_until_complete(loop.shutdown_default_executor())
-                
+
             # Закрываем цикл событий только после завершения всех задач
             if not loop.is_closed():
                 loop.close()

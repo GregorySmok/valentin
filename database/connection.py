@@ -12,7 +12,7 @@ class DatabaseManager:
         password: str,
         database: str,
         min_connections: int = 10,
-        max_connections: int = 20
+        max_connections: int = 20,
     ):
         """
         Инициализация менеджера базы данных
@@ -45,7 +45,7 @@ class DatabaseManager:
                 minsize=self.min_connections,
                 maxsize=self.max_connections,
                 autocommit=True,
-                pool_recycle=3600  # Переподключение каждый час
+                pool_recycle=3600,  # Переподключение каждый час
             )
             print("Database connection pool created successfully")
         except Exception as e:
@@ -120,5 +120,5 @@ db = DatabaseManager(
     password=config.MYSQLPASSWORD,
     database=config.MYSQLDB,
     min_connections=10,
-    max_connections=20
+    max_connections=20,
 )

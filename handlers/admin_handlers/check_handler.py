@@ -10,13 +10,18 @@ from aiogram import F
 from aiogram.filters import Command
 from keyboards import approving_kb
 
+
 def setup(router):
-    @router.message(Command(commands=["check"]) , F.chat.id == config.GROUP_ID)
+    @router.message(Command(commands=["check"]), F.chat.id == config.GROUP_ID)
     @router.callback_query(F.data.startswith("next"))
     async def check_valentine(message: Message):
-        valentine = (await db.fetch_one("SELECT * FROM Valentines"))
+        valentine = await db.fetch_one("SELECT * FROM Valentines")
         if not valentine:
-            await shared.bot.send_message(config.GROUP_ID, "✅ Все валентинки проверены!")
+            await shared.bot.send_message(
+                config.GROUP_ID, "✅ Все валентинки проверены!"
+            )
             return
         text = f"Валентинка от @{valentine[-1]}\nID: {valentine[0]}\n\n{valentine[1]}"
-        await shared.bot.send_message(config.GROUP_ID, text, reply_markup=approving_kb(valentine[0]).as_markup())
+        await shared.bot.send_message(
+            config.GROUP_ID, text, reply_markup=approving_kb(valentine[0]).as_markup()
+        )

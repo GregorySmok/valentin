@@ -15,7 +15,7 @@ MYSQLPASSWORD = str(os.getenv("PASSWORD"))
 MYSQLDB = str(os.getenv("DB"))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-LOG_DIR = BASE_DIR / 'logs'
+LOG_DIR = BASE_DIR / "logs"
 ITEMS_PER_PAGE = 3
 
 admins = [563385265]
