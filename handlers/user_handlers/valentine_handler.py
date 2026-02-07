@@ -18,10 +18,14 @@ def setup(router):
             await message.answer("Слишком большое сообщение, попробуйте другое.")
             return
         user_id = message.from_user.id
+        if message.from_user.username:
+            username = message.from_user.username
+        else:
+            username = "NO_USERNAME"
         try:
             await db.execute(
                 "INSERT INTO Valentines (user_id, text, status, username) values (%s, %s, %s, %s)",
-                (user_id, text, "waiting", message.from_user.username),
+                (user_id, text, "waiting", username),
             )
             await shared.bot.send_message(
                 chat_id=config.GROUP_ID,
