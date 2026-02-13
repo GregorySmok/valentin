@@ -18,7 +18,7 @@ def setup(router):
             callback.message.answer("Этой валентинки уже нет")
             return
         valentine = valentine[0]
-        text = f"Новая валентинка💘 \n\n{valentine}"
+        text = f"Новая валентинка<tg-emoji emoji-id='5285184156555306745'>💌</tg-emoji> \n\n{valentine}"
         await shared.bot.send_message(chat_id=config.CHANNEL_ID, text=text)
         await db.execute("DELETE FROM Valentines WHERE user_id=%s", (user_id,))
         await callback.message.delete()
