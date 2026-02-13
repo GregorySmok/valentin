@@ -8,6 +8,8 @@ from database import db
 from aiogram.fsm.storage.memory import MemoryStorage
 from handlers import routers
 from middlewares import BanMiddleware
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 
 if platform.system() == "Windows":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
@@ -39,7 +41,9 @@ async def main() -> None:
     """Основная функция запуска бота."""
     print("Bot starting...")
     token = config.BOT_TOKEN
-    shared.bot = Bot(token=token)
+    shared.bot = Bot(
+        token=token, default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+    )
     shared.dp = Dispatcher(storage=MemoryStorage())
     shared.dp.message.middleware(BanMiddleware())
 

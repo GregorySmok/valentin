@@ -5,7 +5,9 @@ from aiogram import F
 
 
 def setup(router):
-    @router.message(F.text == "💘 Написать валентинку")
+    @router.message(F.text == "Написать валентинку")
     async def typing_valentin_handler(message: Message, state: FSMContext):
-        await message.answer("💌 Введи текст валентинки:")
+        await message.answer(
+            "<tg-emoji emoji-id='5285184156555306745'>💌</tg-emoji> Введи текст валентинки:"
+        )
         await state.set_state(States.typing_message)

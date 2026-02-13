@@ -12,7 +12,7 @@ class DatabaseManager:
         password: str,
         database: str,
         min_connections: int = 10,
-        max_connections: int = 20,
+        max_connections: int = 30,
     ):
         """
         Инициализация менеджера базы данных
